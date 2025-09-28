@@ -1,17 +1,14 @@
+/* 1️⃣ Imports first */
+@import url('https://fonts.googleapis.com/css2?family=Montreal:wght@400;500;700&display=swap');
 @import "tailwindcss";
 
+/* 2️⃣ Root variables */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #1f1f1f;
+  --foreground: #ededed;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
+/* 3️⃣ Dark mode overrides */
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
@@ -19,8 +16,48 @@
   }
 }
 
+/* 4️⃣ Body styling */
 body {
+  font-family: 'Montreal', sans-serif;
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
 }
+
+/* 5️⃣ Optional icon hover styling */
+.icon {
+  color: gray;
+  transition: color 0.3s;
+}
+.icon:hover {
+  color: white;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  animation: marquee 20s linear infinite;
+  width: max-content;
+}
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 1s ease-out forwards;
+}
+

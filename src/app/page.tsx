@@ -1,103 +1,108 @@
+"use client";
+
 import Image from "next/image";
+import { useState } from "react";
+import { motion } from "framer-motion";
+import ProgramsSection from "@/components/ProgramsSection";
+import SkillsSection from "@/components/SkillsSection";
+import WorkExperienceSection from "@/components/WorkExperienceSection";
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [copied, setCopied] = useState(false);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
+  const handleEmailClick = () => {
+    navigator.clipboard.writeText("jordan_cropley@hotmail.com");
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <div className="bg-animated text-white font-montreal min-h-screen">
+      {/* ================= TOP NAVIGATION BAR ================= */}
+      <div className="bg-[rgba(42,45,52,0.8)] backdrop-blur-md fixed top-0 left-0 w-full h-12 z-50 flex justify-between items-center px-4 shadow-md">
+        {/* Name */}
+        <div className="text-2xl font-bold">Jordan Cropley</div>
+
+        {/* Social Icons */}
+        <div className="flex space-x-4">
+          {[
+            { href: "https://github.com/J3Crople", img: "/github2.png", alt: "GitHub" },
+            { href: "https://www.linkedin.com/in/jordan-cropley-20b532270/", img: "/linkedin2.png", alt: "LinkedIn" },
+            { href: "email", img: "/email2.png", alt: "Email" },
+            { href: "https://www.instagram.com/jordan.cropley/", img: "/instagram2.png", alt: "Instagram" },
+          ].map((icon, idx) =>
+            icon.href === "email" ? (
+              <button
+                key={idx}
+                onClick={handleEmailClick}
+                className="w-8 h-8 rounded-full border border-gray-400 flex items-center justify-center hover:scale-110 transition-transform relative cursor-pointer"
+              >
+                <Image src={icon.img} alt={icon.alt} width={20} height={20} draggable={false}/>
+                {copied && (
+                  <span className="absolute -bottom-5 left-1/2 -translate-x-1/2 bg-black text-white px-2 py-1 rounded text-xs">
+                    Email copied!
+                  </span>
+                )}
+              </button>
+            ) : (
+              <a
+                key={idx}
+                href={icon.href}
+                target="_blank"
+                className="w-8 h-8 rounded-full border border-gray-400 flex items-center justify-center hover:scale-110 transition-transform cursor-pointer"
+              >
+                <Image src={icon.img} alt={icon.alt} width={20} height={20} draggable={false}/>
+              </a>
+            )
+          )}
+        </div>
+      </div>
+
+      {/* ================= MAIN CONTENT WITH FADE + SLIDE ================= */}
+      <motion.div
+        initial={{ opacity: 0, x: 40 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 1.2, ease: "easeOut" }}
+        className="max-w-6xl mx-auto p-6 pt-24 space-y-24"
+      >
+        {/* ---------- Who Am I Section ---------- */}
+        <section className="text-center space-y-6 pt-24">
+          <h2 className="text-4xl md:text-5xl font-bold border-b border-gray-700 pb-2 inline-block">
+            Who Am I
+          </h2>
+          <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+            Hi, I’m <span className="font-semibold">Jordan Cropley</span> — a
+            Management Engineering student at the University of Waterloo with a
+            strong interest in <span className="text-blue-400">AI</span>,
+            <span className="text-green-400"> software development</span>, and
+            <span className="text-purple-400"> web development</span>.
+            I enjoy creating tools and websites that merge engineering problem-solving
+            with modern web development practices, and I’m always looking for
+            opportunities to learn and grow through hands-on projects.
+          </p>
+
+        </section>
+
+        {/* ---------- Work Experience Section ---------- */}
+        <WorkExperienceSection />
+
+        {/* ---------- Programs Section ---------- */}
+        <ProgramsSection />
+
+        {/* ---------- Skills Section ---------- */}
+        <SkillsSection />
+
+        {/* ---------- Resume Button ---------- */}
+        <div className="text-center mt-12">
           <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+            href="/Jordan Cropley.pdf"
             target="_blank"
-            rel="noopener noreferrer"
+            className="inline-block bg-gradient-to-r from-gray-700 via-gray-500 to-gray-700 text-white px-8 py-4 rounded-lg text-lg font-semibold bg-[length:200%_100%] bg-left hover:bg-right transition-all duration-700 ease-in-out cursor-pointer"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
+            View Resume
           </a>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </motion.div>
     </div>
   );
 }
